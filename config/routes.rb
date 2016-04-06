@@ -11,6 +11,10 @@ Rails.application.routes.draw do
   # For this route, we will have helper methods: about_us_path / about_us_url
   get "/about" => "welcome#about", as: :about_us
 
+  # This defines the 'root' or home page
+  # Allows access to: root_path and root_url
+  root "welcome#index"
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
