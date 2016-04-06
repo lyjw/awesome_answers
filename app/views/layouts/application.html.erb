@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>AwesomeAnswers</title>
+  <title>Awesome Answers</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <a href="<%= home_path %>">Home</a> | 
+  <%# link_to is a helper method which generates an HTML element.
+      It takes two primary arguments: 1) The anchor tag ("Home"), 2) The 'href' value for where you want to link to %>
+  <%= link_to "Home", home_path %> |
+  <%= link_to "About Us", about_us_path %>
+  <hr>
 
 <%= yield %>
 
