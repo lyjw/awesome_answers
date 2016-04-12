@@ -1,0 +1,32 @@
+<h1>Contact Us</h1>
+
+<%# Creates a hidden authenticity_token that prevents cross-site scripting  %>
+<%= form_tag contact_us_path do %>
+  <div>
+    <%= label_tag :full_name %>
+    <%= text_field_tag :full_name, nil, {placeholder: "e.g John Smith"} %>
+
+    <!-- Generates:
+    <div>
+      <label for="full_name">Full name</label>
+      <input type="text" name="full_name" id="full_name">
+    </div> -->
+
+    <div>
+      <%= label_tag :email %>
+      <!-- Adds in-browser verification -->
+      <%= email_field_tag :email %>
+    </div>
+
+    <div>
+      <%= label_tag :messages %>
+      <!-- Adds in-browser verification -->
+      <%= text_area_tag :messages %>
+    </div>
+
+    <div>
+      <%= submit_tag "Contact Us" %>
+    </div>
+
+  </div>
+<% end %>

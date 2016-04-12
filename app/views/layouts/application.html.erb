@@ -7,11 +7,19 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <a href="<%= home_path %>">Home</a> | 
+  <a href="<%= home_path %>">Home</a> |
   <%# link_to is a helper method which generates an HTML element.
       It takes two primary arguments: 1) The anchor tag ("Home"), 2) The 'href' value for where you want to link to %>
   <%= link_to "Home", home_path %> |
-  <%= link_to "About Us", about_us_path %>
+
+  <%# Sends parameters (with a hash) to the about_us page. about_us_path is a method that is automatically generated based on our routes through meta-programming %>
+  <%= link_to "About Us", about_us_path({a: "Hello", b: 123}) %> |
+  <%= link_to "Contact Us", contact_us_path %> |
+  <%= link_to "New Question", new_question_path %> |
+  <%= link_to "All Questions", questions_path %>
+  <hr>
+    <%# flash[:notice] || flash[:alert] %>
+    <%= notice || alert %>
   <hr>
 
 <%= yield %>

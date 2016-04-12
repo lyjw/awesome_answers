@@ -1,0 +1,36 @@
+<%#
+- This file '_form.html.erb' is considered to a be partial, which means it can be included in other templates.
+- Partials begin with an '_', i.e. '_form.html_erb'.
+- Partials have access to the same instance variables available in the templates (e.g. @question) %>
+
+<%= @question.errors.full_messages.join(", ").html_safe %>
+
+<%# form_for is a Rails helper method that accepts an ActiveRecord object as the first argument.
+- If @question is not persisted in the database (does not have an id, only exists in memory), form_for makes the 'action' of the form go to 'questions_path' (Rails convention) and it will make the 'method' of 'form' be POST. (Thus, questions_path must be defined or an error will be thrown)%>
+
+<%# If you give the 'form_for' helper an ActiveRecord object that is persisted, then the generated form will have an action that submits to 'question_path(@question)' where @question is the ActiveRecord object that you passed to the form. The action will be PATCH (using the _method workaround - Rack::Override)%>
+<%= form_for @question do |f| %>
+  <%# f is a form helper/builder object %>
+
+
+  <%# <input type="hidden" name="_method" value="patch">  %>
+  <%# <input type="hidden" name="authenticity_token" value="edCEwbtLgIggrRlbqwz61RzgSrFn69a0AC30qzacWURrAMGsZQSXeb7DfffWY/y5QZTwzU444poLCj3AuYA/KQ==">  %>
+  <div>
+    <%# <label for="question_title">Title</label>  %>
+    <%= f.label :title %>
+    <%# By using f.text_field :title, if @question has a value for the attribute 'title', it will populate the field with that value. This is usually the case when redisplaying the form after an error occurs %>
+    <%# <input type="text" name="question[title]" id="question_title">  %>
+    <%= f.text_field :title %>
+  </div>
+
+  <div>
+    <%= f.label :body %>
+    <%= f.text_area :body %>
+  </div>
+
+  <%= f.submit %>
+
+<% end %>
+
+<%# Wraps fields with errors in <div class="field_with_errors">, so it can be stylized %>
+<%= @question.errors.full_messages.join("<br>").html_safe %>

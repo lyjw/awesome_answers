@@ -1,0 +1,17 @@
+<h1><%= @question.title %></h1>
+
+<p>
+  <%= @question.body %>
+</p>
+
+<p>
+  View Count: <%= @question.view_count %>
+</p>
+
+<%= link_to "Edit Question", edit_question_path(@question) %><br/>
+
+<%# Rails mimics a Javascript delete request  %>
+<%# <a rel="nofollow" data-method="delete" href="/questions/10">Delete Question</a> %>
+<%= link_to "Delete Question", question_path(@question),
+                               method: :delete,
+                               data: {confirm: "Are you sure?"} %>

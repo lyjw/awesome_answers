@@ -1,0 +1,11 @@
+<h1>All Questions</h1>
+
+<div>
+  <small>No. of Questions = <%= @questions.count %></small>
+</div>
+
+<% @questions.each do |q| %>
+  <div>
+    <%= link_to q.title, question_path(q) %>
+  </div>
+<% end %>

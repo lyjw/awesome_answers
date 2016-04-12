@@ -11,8 +11,28 @@ Rails.application.routes.draw do
   # For this route, we will have helper methods: about_us_path / about_us_url
   get "/about" => "welcome#about", as: :about_us
 
-  # This defines the 'root' or home page
-  # Allows access to: root_path and root_url
+
+  get "/contact_us" => "contact_us#new"
+  # This will have the same helper method as the above because they have the same URL
+  post "/contact_us" => "contact_us#create"
+
+
+  resources :questions
+  # Route helper, i.e. as: :new_question
+  # get "/questions/new"      => "questions#new"    ,  as: :new_question
+  # post "/questions"         => "questions#create" ,  as: :questions
+  # get "/questions/:id"      => "questions#show"   ,  as: :question
+  # get "/questions"          => "questions#index"
+  # get "/questions/:id/edit" => "questions#edit"   ,  as: :edit_question
+  # patch "/questions/:id"    => "questions#update"
+  # delete "/questions/:id"   => "questions#destroy",  as: :delete_question
+
+
+  post '/questions/:id/comments' => 'comments#create'
+
+  get '/faq' => 'home#faq'
+
+  # This defines the 'root' or home page and allows access to: root_path and root_url
   root "welcome#index"
 
   # The priority is based upon order of creation: first created -> highest priority.
