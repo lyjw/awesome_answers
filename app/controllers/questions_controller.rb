@@ -1,5 +1,8 @@
 class QuestionsController < ApplicationController
 
+  # Authenticates that the user is signed in for all actions, except for the index page and show page or (as defined in the ApplicationsController), the user is redirected to the Sign In page
+  before_action :authenticate_user!, except: [:index, :show]
+
   # Defining a method as a 'before_action' will make it so that Rails executes that method before executing that action. This is still within the request cycle.
   # The method can be provided two options: :only or :except, to limit the actions which the 'find_question' method will be executed before.
   before_action :find_question, only: [:show, :edit, :update, :destroy]
@@ -30,6 +33,7 @@ class QuestionsController < ApplicationController
     # Require a key called :question (in params) and permit only the keys of title and body (explicit)
     # question_params = params.require(:question).permit([:title, :body])
     @question = Question.new(question_params)
+    @question.user = current_user
 
     if @question.save
       flash[:notice] = "Question created!"
@@ -45,6 +49,8 @@ class QuestionsController < ApplicationController
   # We receive a request, such as : GET /questions/56
   # params[:id] will be '56' (Automatically converts .to_i)
   def show
+    @answer = Answer.new
+    @answers = @question.answers.all
   end
 
   def index

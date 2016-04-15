@@ -1,5 +1,10 @@
 class Question < ActiveRecord::Base
-  # validates :title, :body, presence: true
+
+  # The symbol provided for the associated record must be plural. A :dependent option must be provided and can be either:
+    # - :destroy - which deletes all answers when the question is deleted # - :nullify - which makes 'question_id' NULL for all associated answers
+  has_many :answers, dependent: :destroy
+  belongs_to :category
+  belongs_to :user
 
   validates(:title, {presence: true, uniqueness: {message: "must be unique"}})
 
@@ -41,16 +46,20 @@ class Question < ActiveRecord::Base
   end
 
   def titleize(str)
-  ignore = ['in', 'the', 'of', 'and', 'or', 'from']
+    ignore = ['in', 'the', 'of', 'and', 'or', 'from']
 
-  capitalizedString = str.split(" ").map do |word|
-    if !ignore.include? word
-      word.capitalize
+    capitalizedString = str.split(" ").map do |word|
+      if !ignore.include? word
+        word.capitalize
+      end
     end
+
+    capitalizedString.join(" ");
   end
 
-  capitalizedString.join(" ");
-end
+  def user_full_name
+    user ? user.full_name : "Anonymous" 
+  end
 
   private
 

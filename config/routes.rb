@@ -17,7 +17,31 @@ Rails.application.routes.draw do
   post "/contact_us" => "contact_us#create"
 
 
-  resources :questions
+  resources :questions do
+    # A URL that is not specific to one record:
+    # A nested resource - Not directly related to a question record, but you are referencing one
+    # /questions/search (search_questions_path)
+    # get :search, on: :collection
+
+    # Searching within a given question:
+    # /questions/:id/search (search_question_path)
+    # get :search, on: :member
+    # get :search
+
+    # The answers routes will be the standard routes prefixed with /questions/:question_id, so that if we want to create an answer, we know the question it references
+    # All helpers will be prefixed with 'question_'
+    # /questions/:question_id/answers/:id (question_answer_path)
+    resources :answers, only: [:create, :destroy]
+  end
+
+  resources :users, only: [:new, :create]
+
+  resources :sessions, only: [:new, :create] do
+      delete :destroy, on: :collection
+      # delete :destroy, on: :member
+      # delete :destroy
+  end
+
   # Route helper, i.e. as: :new_question
   # get "/questions/new"      => "questions#new"    ,  as: :new_question
   # post "/questions"         => "questions#create" ,  as: :questions

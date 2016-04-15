@@ -28,6 +28,12 @@
     <%= f.text_area :body %>
   </div>
 
+  <div>
+    <%= f.label :category %>
+    <%# Drop-down menu: collection_select(object, method, collection, value_method, text_method  %>
+    <%= f.collection_select :category_id, Category.order(:name), :id, :name %>
+  </div>
+
   <%= f.submit %>
 
 <% end %>
