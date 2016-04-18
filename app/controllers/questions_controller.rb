@@ -5,7 +5,10 @@ class QuestionsController < ApplicationController
 
   # Defining a method as a 'before_action' will make it so that Rails executes that method before executing that action. This is still within the request cycle.
   # The method can be provided two options: :only or :except, to limit the actions which the 'find_question' method will be executed before.
-  before_action :find_question, only: [:show, :edit, :update, :destroy]
+  # before_action :find_question, only: [:show, :update, :edit, :destroy]
+
+  before_action :find_authored_question, only: [:edit, :update, :destroy]
+  before_action :find_question, only: :show
 
   def new
     # Define a new 'Question' object in order to generate a form in Rails
@@ -58,6 +61,8 @@ class QuestionsController < ApplicationController
   end
 
   def edit
+    # Only allows the current user to edit questions that were created by them
+    # @question = current_user.questions.find params[:id]
   end
 
   def update
@@ -75,6 +80,10 @@ class QuestionsController < ApplicationController
   end
 
   private
+
+  def find_authored_question
+    @question = current_user.questions.find params[:id]
+  end
 
   def find_question
     # find method throws an exception if the record does not exist (ActiveRecord::RecordNotFound) - 404
