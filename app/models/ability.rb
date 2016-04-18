@@ -10,6 +10,10 @@ class Ability
     # We instantiate the user to User.new to avoid having user be nil if the user is not signed in - so methods can be called on it. We assume here that 'user' will be User.new if the user is not signed in.
     user ||= User.new
 
+    # Gives superpowers to admin user by having the ability to manage all actions on all models
+    # If a field is a boolean, Rails automatically creates a helper method with a question mark (alternatively, you can user user.admin, which references the value - true or false)
+    can :manage, :all if user.admin?
+
     # Define alias_action instead of using :manage
     alias_action :create, :read, :update, :destroy, :to => :crud
 

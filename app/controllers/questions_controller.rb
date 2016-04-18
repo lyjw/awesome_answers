@@ -7,8 +7,8 @@ class QuestionsController < ApplicationController
   # The method can be provided two options: :only or :except, to limit the actions which the 'find_question' method will be executed before.
   # before_action :find_question, only: [:show, :update, :edit, :destroy]
 
-  before_action :find_authored_question, only: [:edit, :update, :destroy]
-  before_action :find_question, only: :show
+  before_action :find_question, only: [:edit, :update, :destroy, :show]
+  before_action :authorize_question, only: [:edit, :update, :destroy]
 
   def new
     # Define a new 'Question' object in order to generate a form in Rails
@@ -81,8 +81,9 @@ class QuestionsController < ApplicationController
 
   private
 
-  def find_authored_question
-    @question = current_user.questions.find params[:id]
+  def authorize_question
+    redirect_to root_path unless can? :manage, @question
+    # @question = current_user.questions.find params[:id]
   end
 
   def find_question
