@@ -1,5 +1,7 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
+  before_action :find_question
+  before_action :find_and_authorize_answer, only: :destroy
 
   def create
     # render json: params
@@ -33,12 +35,23 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    question = Question.find params[:question_id]
-    # Ensure that the answer belongs to question
-    answer = question.answers.find params[:id]
-    answer.destroy
+    # Always include authorization rules in controller as well as views to ensure users cannot find another entrance
+    @answer.destroy
+    redirect_to question_path(@question), notice: "Answer deleted."
+  end
 
-    redirect_to question_path(question), notice: "Answer deleted."
+  private
+
+  def find_question
+    @question = Question.find params[:question_id]
+  end
+
+  def find_and_authorize_answer
+    # Ensure that the answer belongs to question
+    @answer = @question.answers.find params[:id]
+    redirect_to root_path unless can? :destroy, @answer
+    # head will stop the HTTP request and send a response code depending on the symbol (first argument, i.e :unauthorized) that you pass in
+    # head :unauthorized unless can? :destroy, @answer
   end
 
 end

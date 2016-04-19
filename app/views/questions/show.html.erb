@@ -10,13 +10,19 @@
 <p>View Count: <%= @question.view_count %></p>
 
 
-<%= link_to "Edit Question", edit_question_path(@question) %><br/>
+<%# can? is a helper method from the CanCanCan gem to help us enforce authorization rule sin the views and controllers. The rule for :crud includes rules for :edit and :destroy  %>
+<%# if @question.user == current_user %>
+<% if can? :update, @question %>
+  <%= link_to "Edit Question", edit_question_path(@question) %><br/>
+<% end %>
 
-<%# Rails mimics a Javascript delete request  %>
-<%# <a rel="nofollow" data-method="delete" href="/questions/10">Delete Question</a> %>
-<%= link_to "Delete Question", question_path(@question),
-                               method: :delete,
-                               data: {confirm: "Are you sure?"} %>
+<% if can? :destroy, @question %>
+  <%# Rails mimics a Javascript delete request  %>
+  <%# <a rel="nofollow" data-method="delete" href="/questions/10">Delete Question</a> %>
+  <%= link_to "Delete Question", question_path(@question),
+                                 method: :delete,
+                                 data: {confirm: "Are you sure?"} %>
+<% end %>
 
 <hr>
 
@@ -36,9 +42,12 @@
   <% @question.answers.each do |answer| %>
     <%= answer.body %> by <%= answer.user_full_name.titleize %>
 
-    <%= link_to "Delete", question_answer_path(@question, answer),
-                data: { confirm: "Are you sure?"},
-                method: :delete %>
+    <% if can? :destroy, answer %>
+      <%= link_to "Delete", question_answer_path(@question, answer),
+                  data: { confirm: "Are you sure?"},
+                  method: :delete %>
+    <% end %>
+
     <hr>
   <% end %>
 <% end %>

@@ -1,11 +1,11 @@
 class UsersController < ApplicationController
 
   def new
-    cookies[:abc] = "Hello"
-    cookies[:xyz] = "This"
+    # cookies[:abc] = "Hello"
+    # cookies[:xyz] = "This"
     # Entire session object is put into 'awesome_answer_session' under Resources (when inspected) as a big encrypted string
-    session[:abc] = "Hello"
-    session[:xyz] = "Goodbye"
+    # session[:abc] = "Hello"
+    # session[:xyz] = "Goodbye"
     @user = User.new
   end
 
