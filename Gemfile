@@ -39,14 +39,14 @@ gem 'cancancan'
 
 gem 'rails_12factor', group: :production
 
+gem "faker", github: "stympy/faker"
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
   gem "interactive_editor"
   gem "awesome_print"
   gem "hirb"
-  gem "faker", github: "stympy/faker"
-
 end
 
 group :development do
