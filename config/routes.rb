@@ -32,6 +32,7 @@ Rails.application.routes.draw do
     # All helpers will be prefixed with 'question_'
     # /questions/:question_id/answers/:id (question_answer_path)
     resources :answers, only: [:create, :destroy]
+    resources :likes, only: [:create, :destroy]
   end
 
   resources :users, only: [:new, :create]

@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
 
   def current_user
     # current_user will be called every time (memoization / lazy loading)
-    @current_user ||= User.find session[:user_id]
+    @current_user ||= User.find session[:user_id] if user_signed_in?
   end
   helper_method :current_user
 

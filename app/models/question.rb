@@ -6,6 +6,9 @@ class Question < ActiveRecord::Base
   belongs_to :category
   belongs_to :user
 
+  has_many :likes, dependent: :destroy
+  has_many :users, through: :likes
+
   validates(:title, {presence: true, uniqueness: {message: "must be unique"}})
 
   validates :body, length: { minimum: 5 }
@@ -58,7 +61,11 @@ class Question < ActiveRecord::Base
   end
 
   def user_full_name
-    user ? user.full_name : "Anonymous" 
+    user ? user.full_name : "Anonymous"
+  end
+
+  def liked_by(user)
+    likes.find_by_user_id user if user
   end
 
   private

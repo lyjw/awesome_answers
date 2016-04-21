@@ -53,6 +53,7 @@ class QuestionsController < ApplicationController
   # params[:id] will be '56' (Automatically converts .to_i)
   def show
     @answer = Answer.new
+    @like = Like.new
     @answers = @question.answers.all
   end
 
@@ -94,5 +95,10 @@ class QuestionsController < ApplicationController
   def question_params
     params.require(:question).permit(:title, :body)
   end
+
+  def user_like
+    @user_like ||= @question.liked_by(current_user)
+  end
+  helper_method :user_like
 
 end

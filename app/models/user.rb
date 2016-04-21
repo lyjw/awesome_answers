@@ -3,6 +3,11 @@ class User < ActiveRecord::Base
   has_many :questions, dependent: :nullify
   has_many :answers, dependent: :nullify
 
+  has_many :likes, dependent: :destroy
+  # The 'source' option is used here because we used 'liked_questions' instead of 'questions' (convention) becuase we used 'has_many :questions' earlier.
+  # Inside the 'like' model, there is no assiciation called 'liked_question', so we have to specify the source for Rails to know how to match it
+  has_many :liked_questions, through: :likes, source: :question
+
   # 1 - Adds attribute accessors: password and password_confirmation
   # These attribute values should not be stored in the database but will be accessible in memory temporarily (does not map to a field in the database), so that it can go through the BCrypt hashing algorithm. By default, Rails hides passwords from logs for security.
   # 2 - Adds validation: Password must be present on creation
