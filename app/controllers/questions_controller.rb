@@ -1,5 +1,8 @@
 class QuestionsController < ApplicationController
 
+  # include QuestionsAnswersHelper
+  # helper_method :user_like
+
   # Authenticates that the user is signed in for all actions, except for the index page and show page or (as defined in the ApplicationsController), the user is redirected to the Sign In page
   before_action :authenticate_user!, except: [:index, :show]
 

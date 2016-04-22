@@ -32,6 +32,24 @@
   <% end %>
 
   (<%= @question.likes.count %>)
+  | <br>
+
+  <% user_vote = @question.vote_for(current_user) %>
+  <% if user_vote && user_vote.is_up? %>
+    <%# if user upvoted  %>
+    <%= link_to "Undo Upvote", question_vote_path(@question, user_vote), method: :delete  %>
+    <%= link_to "Downvote", question_vote_path(@question, user_vote, { vote: {is_up: false}}), method: :patch  %>
+  <% elsif user_vote %>
+    <%# if user downvoted  %>
+    <%= link_to "Upvote", question_vote_path(@question, user_vote, { vote: {is_up: true}}), method: :patch  %>
+    <%= link_to "Undo Downvote", question_vote_path(@question, user_vote), method: :delete  %>
+  <% else %>
+    <%# if user has not voted  %>
+    <%= link_to "Upvote", question_votes_path(@question, { vote: {is_up: true}}), method: :post  %>
+    <%= link_to "Downvote", question_votes_path(@question, { vote: {is_up: false}}), method: :post  %>
+  <% end %>
+
+  (<%= @question.vote_value %>)
 
 </div>
 

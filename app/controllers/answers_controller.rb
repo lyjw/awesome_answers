@@ -1,4 +1,8 @@
 class AnswersController < ApplicationController
+  # 
+  # include QuestionsAnswersHelper
+  # helper_method :user_like
+
   before_action :authenticate_user!
   before_action :find_question
   before_action :find_and_authorize_answer, only: :destroy
