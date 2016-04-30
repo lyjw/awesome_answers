@@ -1,5 +1,5 @@
 class AnswersController < ApplicationController
-  # 
+  #
   # include QuestionsAnswersHelper
   # helper_method :user_like
 
@@ -30,6 +30,8 @@ class AnswersController < ApplicationController
     @answer.user = current_user
 
     if @answer.save
+      # Relegates the delivery of the email to a background job
+      AnswersMailer.notify_question_owner(@answer).deliver_later
       redirect_to question_path(@question), notice: "Thanks for your answer."
     else
       flash[:alert] = "Answer was not saved."

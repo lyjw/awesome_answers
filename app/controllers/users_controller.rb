@@ -15,7 +15,7 @@ class UsersController < ApplicationController
 
     if @user.save
       # Logs the user in by setting the session :user_id to the user's id in our database. This identifies the user that is logged in by their id.
-      session[:user_id] = @user.id
+      sign_in(@user)
       redirect_to root_path, notice: "Account created!"
     else
       flash[:alert] = "Account was not created!"

@@ -7,6 +7,8 @@
 
 <p>Created by: <%= @question.user_full_name.titleize %></p>
 
+<p>Tags: <%= @question.tags.map { |t| t.name }.join(", ") %></p>
+
 <p>View Count: <%= @question.view_count %></p>
 
 

@@ -3,6 +3,10 @@ Rails.application.routes.draw do
   # Rails will invoke the WelcomeController with 'index' action
   # Ruby syntax - get({"/home" => "welcome#index"})
 
+  match "/delayed_job" => DelayedJobWeb, :anchor => false, via: [:get, :post]
+
+  resources :password_resets, only: [:new, :create, :edit, :update]
+
   # If no specific helper method name is provided,
   # it will default to 'home_path' and 'home_url'
   get "/home" => "welcome#index"

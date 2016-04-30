@@ -13,6 +13,9 @@ class Question < ActiveRecord::Base
   has_many :votes, dependent: :destroy
   has_many :voting_users, through: :votes, source: :user
 
+  has_many :taggings, dependent: :destroy
+  has_many :tags, through: :taggings
+
   validates(:title, {presence: true, uniqueness: {message: "must be unique"}})
 
   validates :body, length: { minimum: 5 }

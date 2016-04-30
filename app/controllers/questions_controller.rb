@@ -37,7 +37,7 @@ class QuestionsController < ApplicationController
     # Method 4
     # We use the Strong Parameters feature of Rails
     # Require a key called :question (in params) and permit only the keys of title and body (explicit)
-    # question_params = params.require(:question).permit([:title, :body])
+    question_params = params.require(:question).permit([:title, :body])
     @question = Question.new(question_params)
     @question.user = current_user
 
@@ -86,7 +86,7 @@ class QuestionsController < ApplicationController
   private
 
   def authorize_question
-    redirect_to root_path unless can? :manage, @question
+    redirect_to root_path unless can? :crud, @question
     # @question = current_user.questions.find params[:id]
   end
 
@@ -96,7 +96,10 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body)
+    params.require(:question).permit( :title,
+                                      :body,
+                                      :category_id,
+                                      tag_ids: [])
   end
 
   def user_like
