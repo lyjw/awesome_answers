@@ -29,21 +29,33 @@ class AnswersController < ApplicationController
     @answer.question = @question
     @answer.user = current_user
 
-    if @answer.save
-      # Relegates the delivery of the email to a background job
-      AnswersMailer.notify_question_owner(@answer).deliver_later
-      redirect_to question_path(@question), notice: "Thanks for your answer."
-    else
-      flash[:alert] = "Answer was not saved."
-      # Within the same request cycle, so the path will lead to the same question
-      render "/questions/show"
+    # 'format' is the part you see at the end of the URL (by default, .html)
+    respond_to do |format|
+      if @answer.save
+        # Relegates the delivery of the email to a background job
+        AnswersMailer.notify_question_owner(@answer).deliver_later
+        # If the format is HTML, then redirect
+        format.html { redirect_to question_path(@question), notice: "Thanks for your answer."}
+        # format.js { render js: "alert('success');"}
+        format.js { render :create_success }
+      else
+        flash[:alert] = "Answer was not saved."
+        # Within the same request cycle, so the path will lead to the same question
+        format.html { render "/questions/show" }
+        format.js { render :create_failure }
+      end
     end
+
   end
 
   def destroy
     # Always include authorization rules in controller as well as views to ensure users cannot find another entrance
     @answer.destroy
-    redirect_to question_path(@question), notice: "Answer deleted."
+
+    respond_to do |format|
+      format.html { redirect_to question_path(@question), notice: "Answer deleted." }
+      format.js { render } # renders destroy.js.erb by default
+    end
   end
 
   private

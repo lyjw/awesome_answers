@@ -4,13 +4,11 @@
   <%= @question.body %>
 </p>
 
-
 <p>Created by: <%= @question.user_full_name.titleize %></p>
 
 <p>Tags: <%= @question.tags.map { |t| t.name }.join(", ") %></p>
 
 <p>View Count: <%= @question.view_count %></p>
-
 
 <%# can? is a helper method from the CanCanCan gem to help us enforce authorization rule sin the views and controllers. The rule for :crud includes rules for :edit and :destroy  %>
 <%# if @question.user == current_user %>
@@ -57,28 +55,21 @@
 
 <hr>
 
-<%= @answer.errors.full_messages.join(", ") %>
+<div id="answer-form">
+  <%= render "/answers/form", answer: @answer %>
+</div>
 
-<%# Submits to answers_path by default as it is not persisted%>
-<%# To override, use the :url option to specify a path: %>
-<%# form_for @answer, url: question_answers_path(@question) do |f| %>
-<%# Alternatively, use an array: %>
-<%= form_for [@question, @answer] do |f| %>
-  <%= f.text_area :body %>
-  <%= f.submit %>
-<% end %>
+<hr>
 
 <% if @question.answers %>
+
   <h3>[ Answers ]</h3>
-  <% @question.answers.each do |answer| %>
-    <%= answer.body %> by <%= answer.user_full_name.titleize %>
 
-    <% if can? :destroy, answer %>
-      <%= link_to "Delete", question_answer_path(@question, answer),
-                  data: { confirm: "Are you sure?"},
-                  method: :delete %>
+  <div id="answers">
+    <% @question.answers.each do |ans| %>
+      <%# Partials have access to instance variables but not local variables, so we have to pass 'ans' into the partial %>
+      <%= render "/answers/answer", answer: ans %>
     <% end %>
+  </div>
 
-    <hr>
-  <% end %>
 <% end %>

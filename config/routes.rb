@@ -1,12 +1,12 @@
 Rails.application.routes.draw do
-  # This defines a route so that when a GET request for "/home" is received,
-  # Rails will invoke the WelcomeController with 'index' action
-  # Ruby syntax - get({"/home" => "welcome#index"})
-
+  
   match "/delayed_job" => DelayedJobWeb, :anchor => false, via: [:get, :post]
 
   resources :password_resets, only: [:new, :create, :edit, :update]
 
+  # This defines a route so that when a GET request for "/home" is received,
+  # Rails will invoke the WelcomeController with 'index' action
+  # Ruby syntax - get({"/home" => "welcome#index"})
   # If no specific helper method name is provided,
   # it will default to 'home_path' and 'home_url'
   get "/home" => "welcome#index"

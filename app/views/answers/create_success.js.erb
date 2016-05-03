@@ -1,0 +1,15 @@
+// j - sanitizes the response (makes it javascript ready)
+// It will escape the javascript - input new lines, escape quotation marks...etc
+$("#answers").prepend("<%= j render 'answers/answer', answer: @answer, style: 'display: none' %>");
+
+// This renders the edit form to update the answer
+// @answer is persisted, so the form will submit a PATCH request, instead of a POST
+  // $(".answer-form").html("<%# j render 'answers/form' %>");
+
+// Solution 1
+<%# @answer = Answer.new %>
+// $(".answer-form").html("<%# j render 'answers/form' %>");
+
+// Solution 2
+$("#answer-form").html("<%= j render 'answers/form', answer: Answer.new %>");
+$("#<%= dom_id(@answer) %>").slideDown(2000);

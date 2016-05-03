@@ -56,8 +56,15 @@ class QuestionsController < ApplicationController
   # params[:id] will be '56' (Automatically converts .to_i)
   def show
     @answer = Answer.new
-    @like = Like.new
     @answers = @question.answers.all
+
+    # Supports three different formats (i.e /home(:.format))
+    respond_to do |format|
+      format.html { render }
+      # Processing by QuestionsController#show as JSON
+      format.json { render json: @question.to_json }
+      format.xml  { render xml: @question.to_xml }
+    end
   end
 
   def index

@@ -1,0 +1,14 @@
+<%# @answer -> answer, avoid instantiating variables in an erb file %>
+
+<%= answer.errors.full_messages.join(", ") %>
+<%# Adding a remote: true option to the form makes it so that the form submits with AJAX (prevent the default as well)  %>
+
+<%# Submits to answers_path by default as it is not persisted%>
+<%# To override, use the :url option to specify a path: %>
+<%# form_for @answer, url: question_answers_path(@question) do |f| %>
+<%# Alternatively, use an array: %>
+<%= form_for [@question, answer], remote: true do |f| %>
+  <%= f.text_area :body %>
+  <%# disable_with - Temporarily disables submit button and changes text to 'Submitting' when the answer is being added to the list. Useful if there is lag during submission to prevent multiple requests going through %>
+  <%= f.submit data: { disable_with: "Submitting..." } %>
+<% end %>
