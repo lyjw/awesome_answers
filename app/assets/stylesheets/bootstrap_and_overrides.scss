@@ -1,0 +1,6 @@
+// Setting up overrides for Bootstrap classes
+// $brand-primary: #cc000;
+$border-radius-base: 0;
+
+@import "bootstrap-sprockets";
+@import "bootstrap";

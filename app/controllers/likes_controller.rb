@@ -3,22 +3,33 @@ class LikesController < ApplicationController
   before_action :authenticate_user!
   before_action :authorize_create, only: :create
   before_action :authorize_destroy, only: :destroy
+  # Will call the 'question' method to force finding the question as we will need it for both the create and destroy actions
+  before_action :question
 
   def create
     like           = Like.new
     like.user      = current_user
     like.question  = question
 
-    if like.save
-      redirect_to question, notice: "Liked!"
-    else
-      redirect_to question, alert: "You've already liked!"
+    respond_to do |format|
+      if like.save
+        format.html { redirect_to question, notice: "Liked!" }
+        format.js   { render } # renders create.js.erb
+      else
+        format.html { redirect_to question, alert: "You've already liked!" }
+        format.js { render js: "alert('Can\'t like, please refresh the page.);"}
+      end
     end
+
   end
 
   def destroy
     like.destroy
-    redirect_to question, notice: "Un-liked!"
+
+    respond_to do |format|
+      format.html { redirect_to question, notice: "Un-liked!" }
+      format.js { render }
+    end
   end
 
   private

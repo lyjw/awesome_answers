@@ -69,6 +69,13 @@ class QuestionsController < ApplicationController
 
   def index
     @questions = Question.all
+
+    respond_to do |format|
+      format.html { render }
+      # Good practice to only send the data you need
+      format.json { render json: @questions.select(:id, :title, :view_count) }
+    end
+
   end
 
   def edit

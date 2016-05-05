@@ -45,7 +45,7 @@ gem 'rails_12factor', group: :production
 gem 'delayed_job_active_record'
 gem 'delayed_job_web'
 
-gem "faker", github: "stympy/faker"
+gem 'rack-cors', require: 'rack/cors'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -53,6 +53,8 @@ group :development, :test do
   gem "interactive_editor"
   gem "awesome_print"
   gem "hirb"
+  gem "faker", github: "stympy/faker"
+
 end
 
 group :development do

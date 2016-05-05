@@ -9,6 +9,21 @@
                 method: :delete,
                 remote: true %>
   <% end %>
+
+  <% if can? :edit, answer %>
+    <!-- Button trigger modal -->
+    <!-- <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#edit-answer">
+      Edit Answer
+    </button> -->
+
+    <%= link_to "Edit", edit_question_answer_path(@question, answer),
+        remote: true,
+        # Similar to data-toggle: "modal", data-target: "#edit-answer"
+        data: { toggle: "modal", target: "#edit-answer" },
+        class: "btn btn-primary btn-sm" %>
+
+  <% end %>
+
   <hr>
 
 </div>

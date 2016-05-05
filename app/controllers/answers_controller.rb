@@ -24,7 +24,7 @@ class AnswersController < ApplicationController
     #   }
 
     @question        = Question.find params[:question_id]
-    answer_params   = params.require(:answer).permit([:body, :category])
+    answer_params   = params.require(:answer).permit([:body])
     @answer          = Answer.new(answer_params)
     @answer.question = @question
     @answer.user = current_user
@@ -55,6 +55,19 @@ class AnswersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to question_path(@question), notice: "Answer deleted." }
       format.js { render } # renders destroy.js.erb by default
+    end
+  end
+
+  def edit
+    @answer = Answer.find params[:id]
+  end
+
+  def update
+    @answer = Answer.find params[:id]
+    answer_params = params.require(:answer).permit([:body])
+
+    if @answer.save answer_params
+      redirect_to question_path(@question)
     end
   end
 

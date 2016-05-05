@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  
+
   match "/delayed_job" => DelayedJobWeb, :anchor => false, via: [:get, :post]
 
   resources :password_resets, only: [:new, :create, :edit, :update]
@@ -34,7 +34,7 @@ Rails.application.routes.draw do
     # The answers routes will be the standard routes prefixed with /questions/:question_id, so that if we want to create an answer, we know the question it references
     # All helpers will be prefixed with 'question_'
     # /questions/:question_id/answers/:id (question_answer_path)
-    resources :answers, only: [:create, :destroy]
+    resources :answers, only: [:create, :edit, :update, :destroy]
     resources :likes, only: [:create, :destroy]
     resources :votes, only: [:create, :update, :destroy]
   end

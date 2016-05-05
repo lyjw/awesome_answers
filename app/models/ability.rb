@@ -29,6 +29,14 @@ class Ability
       (a.question.user == user || a.user == user) && user.persisted?
     end
 
+    can :like, Question do |q|
+      q.user != user
+    end
+
+    can :destroy, Like do |l|
+      l.user == user
+    end
+
     # It is possible to define any action, i.e. can :edit / can :destroy ...etc
 
     # Define abilities for the passed in user here. For example:

@@ -39,7 +39,7 @@
     <%= f.collection_check_boxes :tag_ids, Tag.order(:name), :id, :name %>
   </div>
 
-  <%= f.submit %>
+  <%= f.submit class: "btn btn-primary" %>
 
 <% end %>
 
