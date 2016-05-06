@@ -66,9 +66,17 @@ class AnswersController < ApplicationController
     @answer = Answer.find params[:id]
     answer_params = params.require(:answer).permit([:body])
 
-    if @answer.save answer_params
-      redirect_to question_path(@question)
+    if @answer.update answer_params
+      respond_to do |format|
+        format.js { render :update_success }
+      end
+    else
+      respond_to do |format|
+        format.js { render :update_failure }
+      end
     end
+
+    # Render create_success / create_failure?
   end
 
   private

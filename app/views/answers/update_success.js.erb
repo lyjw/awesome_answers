@@ -1,0 +1,8 @@
+$("#edit-answer").modal('hide');
+  // var answer_id = $(this).find(".modal-footer").data("id");
+$("#<%= dom_id(@answer) %>").slideUp(1000);
+$("#<%= dom_id(@answer) %>").replaceWith("<%= j render 'answer', answer: @answer %>");
+
+// $(".modal").fadeOut(500, function(){
+
+// });

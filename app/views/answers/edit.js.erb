@@ -1,1 +1,12 @@
 $("#edit-answer").html("<%= j render 'modal_form' %>")
+
+$("#update-answer").on("submit", function() {
+  var current_url = window.location.href;
+  var new_body =  $(".modal #answer_body").val();
+
+  $.ajax({
+    method: "PATCH",
+    url: current_url + "/answers/" + $(this).parent().data("id"),
+    data: { new_body }
+  });
+});
