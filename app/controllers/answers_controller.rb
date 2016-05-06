@@ -68,10 +68,12 @@ class AnswersController < ApplicationController
 
     if @answer.update answer_params
       respond_to do |format|
+        format.html { render }
         format.js { render :update_success }
       end
     else
       respond_to do |format|
+        format.html { render }
         format.js { render :update_failure }
       end
     end

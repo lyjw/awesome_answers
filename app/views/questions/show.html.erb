@@ -63,7 +63,7 @@
 
   <h3>[ Answers ]</h3>
 
-  <div id="question_<%= @question.id %>_answers">
+  <div id="answers">
     <% @question.answers.each do |ans| %>
       <%# Partials have access to instance variables but not local variables, so we have to pass 'ans' into the partial %>
       <%= render "/answers/answer", answer: ans %>
