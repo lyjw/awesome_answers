@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :insights
   match "/delayed_job" => DelayedJobWeb, :anchor => false, via: [:get, :post]
 
   resources :password_resets, only: [:new, :create, :edit, :update]
@@ -37,6 +38,8 @@ Rails.application.routes.draw do
     resources :answers, only: [:create, :edit, :update, :destroy]
     resources :likes, only: [:create, :destroy]
     resources :votes, only: [:create, :update, :destroy]
+    resources :insights, only: [:create]
+
   end
 
   resources :users, only: [:new, :create]
@@ -46,6 +49,7 @@ Rails.application.routes.draw do
       # delete :destroy, on: :member
       # delete :destroy
   end
+
 
 
   # Route helper, i.e. as: :new_question

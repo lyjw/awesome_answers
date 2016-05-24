@@ -16,6 +16,8 @@ class Question < ActiveRecord::Base
   has_many :taggings, dependent: :destroy
   has_many :tags, through: :taggings
 
+  has_many :insights, dependent: :destroy
+
   validates(:title, {presence: true, uniqueness: {message: "must be unique"}})
 
   validates :body, length: { minimum: 5 }
@@ -38,6 +40,12 @@ class Question < ActiveRecord::Base
 
   # After running q.valid?, q.title will be titleized
   before_validation :titleize_title
+
+  # Saves history of slugs so if updated, links won't be broken - they will be redirected to the url with the new slug
+  extend FriendlyId
+  friendly_id :title, use: :history
+
+  mount_uploader :image, ImageUploader
 
   # Similar to:
   # scope :recent_three, lambda { last(3) }
@@ -82,6 +90,11 @@ class Question < ActiveRecord::Base
   def vote_value
     votes.upvotes_count - votes.downvotes_count
   end
+
+  # def to_param
+  #   # .parameterize turns a URL into a user-friendly format
+  #   "#{id}-#{title}".parameterize
+  # end
 
   private
 

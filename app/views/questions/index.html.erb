@@ -6,6 +6,13 @@
 
 <% @questions.each do |q| %>
   <div>
-    <%= link_to q.title, question_path(q) %>
+
+    <%= link_to question_path(q) do %>
+      <%= q.title %>
+      <% if q.image.present? %>
+        <%= image_tag q.image.url(:thumb) %>
+      <% end %>
+    <% end %>
+
   </div>
 <% end %>

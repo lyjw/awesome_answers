@@ -1,5 +1,9 @@
 <h1><%= @question.title %></h1>
 
+<% if @question.image.present? %>
+  <%= image_tag @question.image.url, class: "full-width" %>
+<% end %>
+
 <p>
   <%= @question.body %>
 </p>

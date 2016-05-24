@@ -37,7 +37,7 @@ class QuestionsController < ApplicationController
     # Method 4
     # We use the Strong Parameters feature of Rails
     # Require a key called :question (in params) and permit only the keys of title and body (explicit)
-    question_params = params.require(:question).permit([:title, :body])
+    question_params = params.require(:question).permit([:title, :body, :image,  :category_id, { tag_ids: [] }])
     @question = Question.new(question_params)
     @question.user = current_user
 
@@ -57,12 +57,13 @@ class QuestionsController < ApplicationController
   def show
     @answer = Answer.new
     @answers = @question.answers.all
+    @insights = @question.insights.all
 
     # Supports three different formats (i.e /home(:.format))
     respond_to do |format|
       format.html { render }
       # Processing by QuestionsController#show as JSON
-      format.json { render json: @question.to_json }
+      format.json { render json: { question: @question, insights: @insights }}
       format.xml  { render xml: @question.to_xml }
     end
   end
@@ -84,6 +85,9 @@ class QuestionsController < ApplicationController
   end
 
   def update
+    # Clear the previous question slug. When question is saved, FriendlyId will automatically update it to the new title.
+    @question.slug = nil
+
     if @question.update question_params
       # Flash messages can be set either directly using: flash[:notice] = "...". You can also pass notice or alert options to the 'redirect_to" method.
       redirect_to question_path(@question), notice: "Question updated!"
@@ -106,7 +110,7 @@ class QuestionsController < ApplicationController
 
   def find_question
     # find method throws an exception if the record does not exist (ActiveRecord::RecordNotFound) - 404
-    @question = Question.find params[:id]
+    @question = Question.friendly.find params[:id]
   end
 
   def question_params
